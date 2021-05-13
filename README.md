@@ -1,2 +1,2 @@
-# Options_Portfolio_Analyzer
+# Derivatives_Portfolio_Analyzer
 Analysis of different options portfolios
