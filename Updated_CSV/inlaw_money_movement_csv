@@ -1,0 +1,13 @@
+Date,Type,Description,Value
+2021-05-08,Money Movement,Regulatory fee adjustment,-0.01
+2021-05-01,Money Movement,Regulatory fee adjustment,-0.10
+2021-04-24,Money Movement,Regulatory fee adjustment,-0.07
+2021-04-17,Money Movement,Regulatory fee adjustment,-0.09
+2021-04-16,Money Movement,INTEREST ON CREDIT BALANCE,2.42
+2021-04-10,Money Movement,Regulatory fee adjustment,-0.20
+2021-04-08,Money Movement,ACH DISBURSEMENT,"-2,500.00"
+2021-03-27,Money Movement,Regulatory fee adjustment,-0.11
+2021-03-20,Money Movement,Regulatory fee adjustment,-0.17
+2021-03-15,Money Movement,ACH DEPOSIT,"210,000.00"
+2021-03-13,Money Movement,Regulatory fee adjustment,-0.02
+2021-03-11,Money Movement,ACH DEPOSIT,"250,000.00"
