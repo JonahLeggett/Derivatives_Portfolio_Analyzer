@@ -16,8 +16,8 @@ import pandas as pd
 
 from qualifier.utils.fileio import load_csv
 
-from qualifier.utils.calculators import (
-    get_current_position, 
+from qualifier.utils.strategy import (
+    get_total_position, 
     credit_spread,
     debit_spread,
     short_strangle,
@@ -107,6 +107,8 @@ def save_qualifying_loans(qualifying_loans):
 def run():
     """The main function for running the script."""
 
+    print("Hello!  Welcome to the Derivatives Portfolio Analyzer!")
+
     # Load the latest portfolio data
     portfolio_data = load_portfolio_csv()
     portfolio_data_df = pd.DataFrame(portfolio_data)
@@ -118,8 +120,8 @@ def run():
     #Choose how to analyze the stock ticker trades
     strategy = choose_strategy()
 
-    if strategy == "Current Position":
-        position = get_current_position(portfolio_data_df, ticker)
+    if strategy == "Total Position":
+        position = get_total_position(portfolio_data_df, ticker)
     elif strategy == "Credit Spread":
         credit_spread(portfolio_data_df, ticker)
     elif strategy == "Debit Spread":
