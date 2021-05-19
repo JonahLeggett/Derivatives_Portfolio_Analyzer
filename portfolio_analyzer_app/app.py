@@ -16,21 +16,15 @@ import pandas as pd
 
 from qualifier.utils.fileio import load_csv
 
-from qualifier.utils.calculators import get_current_position
-from qualifier.utils.calculators import credit_spread
-from qualifier.utils.calculators import debit_spread
-from qualifier.utils.calculators import short_strangle
-from qualifier.utils.calculators import iron_condor
-from qualifier.utils.calculators import rolling_options
-from qualifier.utils.calculators import covered_calls
-
-
 from qualifier.utils.calculators import (
-    calculate_monthly_debt_ratio,
-    calculate_loan_to_value_ratio,
-)
+    get_current_position, 
+    credit_spread,
+    debit_spread,
+    short_strangle,
+    iron_condor,
+    rolling_options,
+    covered_calls)
 
-#from qualifier.filters.ticker import get_ticker
 
 #Impot save_csv() function from fileio.py module
 from qualifier.utils.fileio import save_csv 
@@ -67,7 +61,7 @@ def choose_strategy():
     strategy = questionary.select(
         "Choose the strategy that you want to get analysis on:",
         choices = [
-            "Current Position",
+            "Total Position",
             "Credit Spread",
             "Debit Spread",
             "Short Strangle",
