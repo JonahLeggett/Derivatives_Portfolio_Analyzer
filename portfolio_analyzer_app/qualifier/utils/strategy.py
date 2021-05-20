@@ -10,6 +10,7 @@ determine metrics for the derivatives portfolio.
 import pandas as pd
 import numpy as np
 from pathlib import Path
+import sys
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -45,17 +46,22 @@ def short_put_gross_net_value(df, ticker):
     df = df.loc[(df["Action"] == "SELL_TO_OPEN") | (df["Action"] == "SELL_TO_CLOSE")]
     df = df.loc[df["Call or Put"] == "PUT"]
 
-    #Create variables to hold the gross value, total commission fees, and total fees to help calculate the net value
-    gross_value = df["Value"].sum()
-    total_commissions = df["Commissions"].sum()
-    total_fees = df["Fees"].sum()
-    net_value = gross_value + total_commissions + total_fees
+    if len(df) == 0:
+        print("You did not employ this strategy for this ticker.")
+    
+    else:
+
+        #Create variables to hold the gross value, total commission fees, and total fees to help calculate the net value
+        gross_value = df["Value"].sum()
+        total_commissions = df["Commissions"].sum()
+        total_fees = df["Fees"].sum()
+        net_value = gross_value + total_commissions + total_fees
 	
-    #Print statements to show the metrics
-    print(f"Your short put gross value for {ticker} is ${round(gross_value,2)}.")
-    print(f"Your total short put commission fees for {ticker} is ${round(total_commissions,2)}.")
-    print(f"Your total short put fees for {ticker} is ${round(total_fees,2)}.")
-    print(f"Your short put net value for {ticker} is ${round(net_value,2)}.")
+        #Print statements to show the metrics
+        print(f"Your short put gross value for {ticker} is ${round(gross_value,2)}.")
+        print(f"Your total short put commission fees for {ticker} is ${round(total_commissions,2)}.")
+        print(f"Your total short put fees for {ticker} is ${round(total_fees,2)}.")
+        print(f"Your short put net value for {ticker} is ${round(net_value,2)}.")
 
 #Create a function to calculate gross and net values of long puts on specified ticker
 def long_put_gross_net_value(df, ticker):
@@ -64,23 +70,28 @@ def long_put_gross_net_value(df, ticker):
     df = df.loc[(df["Action"] == "BUY_TO_OPEN") | (df["Action"] == "BUY_TO_CLOSE")]
     df = df.loc[df["Call or Put"] == "PUT"]
 
-    #Convert values into integer values for calculation
-    df['Value'] = pd.to_numeric(df['Value'].str.replace(",", ""))
-    df['Average Price'] = pd.to_numeric(df['Average Price'].str.replace(",", ""))
-    df['Commissions'] = pd.to_numeric(df['Commissions'].str.replace("--", ""))
-    df['Expiration Date'] = pd.to_datetime(df['Expiration Date'])
+    if len(df) == 0:
+        print("You did not employ this strategy for this ticker.")
 
-    #Create variables to hold the gross value, total commission fees, and total fees to help calculate the net value
-    gross_value = df["Value"].sum()
-    total_commissions = df["Commissions"].sum()
-    total_fees = df["Fees"].sum()
-    net_value = gross_value + total_commissions + total_fees
+    else:
+
+        #Convert values into integer values for calculation
+        df['Value'] = pd.to_numeric(df['Value'].str.replace(",", ""))
+        df['Average Price'] = pd.to_numeric(df['Average Price'].str.replace(",", ""))
+        df['Commissions'] = pd.to_numeric(df['Commissions'].str.replace("--", ""))
+        df['Expiration Date'] = pd.to_datetime(df['Expiration Date'])
+
+        #Create variables to hold the gross value, total commission fees, and total fees to help calculate the net value
+        gross_value = df["Value"].sum()
+        total_commissions = df["Commissions"].sum()
+        total_fees = df["Fees"].sum()
+        net_value = gross_value + total_commissions + total_fees
 	
-    #Print statements to show the metrics
-    print(f"Your long put gross value for {ticker} is ${round(gross_value,2)}.")
-    print(f"Your total long put commission fees for {ticker} is ${round(total_commissions,2)}.")
-    print(f"Your total long put fees for {ticker} is ${round(total_fees,2)}.")
-    print(f"Your long put net value for {ticker} is ${round(net_value,2)}.")
+        #Print statements to show the metrics
+        print(f"Your long put gross value for {ticker} is ${round(gross_value,2)}.")
+        print(f"Your total long put commission fees for {ticker} is ${round(total_commissions,2)}.")
+        print(f"Your total long put fees for {ticker} is ${round(total_fees,2)}.")
+        print(f"Your long put net value for {ticker} is ${round(net_value,2)}.")
 
 #Create a function to calculate gross and net values of short calls on specified ticker
 def short_call_gross_net_value(df, ticker):
@@ -88,18 +99,23 @@ def short_call_gross_net_value(df, ticker):
     #Filter the dataframe by the short actions
     df = df.loc[(df["Action"] == "SELL_TO_OPEN") | (df["Action"] == "SELL_TO_CLOSE")]
     df = df.loc[df["Call or Put"] == "CALL"]
+
+    if len(df) == 0:
+        print("You did not employ this strategy for this ticker.")
     
-    #Create variables to hold the gross value, total commission fees, and total fees to help calculate the net value
-    gross_value = df["Value"].sum()
-    total_commissions = df["Commissions"].sum()
-    total_fees = df["Fees"].sum()
-    net_value = gross_value + total_commissions + total_fees
-	
-    #Print statements to show the metrics
-    print(f"Your short call gross value for {ticker} is ${round(gross_value,2)}.")
-    print(f"Your total short call commission fees for {ticker} is ${round(total_commissions,2)}.")
-    print(f"Your total short call fees for {ticker} is ${round(total_fees,2)}.")
-    print(f"Your short call net value for {ticker} is ${round(net_value,2)}.")
+    else:
+
+        #Create variables to hold the gross value, total commission fees, and total fees to help calculate the net value
+        gross_value = df["Value"].sum()
+        total_commissions = df["Commissions"].sum()
+        total_fees = df["Fees"].sum()
+        net_value = gross_value + total_commissions + total_fees
+        
+        #Print statements to show the metrics
+        print(f"Your short call gross value for {ticker} is ${round(gross_value,2)}.")
+        print(f"Your total short call commission fees for {ticker} is ${round(total_commissions,2)}.")
+        print(f"Your total short call fees for {ticker} is ${round(total_fees,2)}.")
+        print(f"Your short call net value for {ticker} is ${round(net_value,2)}.")
 
 #Create a function to calculate gross and net values of long calls on specified ticker
 def long_call_gross_net_value(df, ticker):
@@ -107,18 +123,22 @@ def long_call_gross_net_value(df, ticker):
     #Filter the dataframe by the long actions
     df = df.loc[(df["Action"] == "BUY_TO_OPEN") | (df["Action"] == "BUY_TO_CLOSE")]
     df = df.loc[df["Call or Put"] == "CALL"]
-    
-    #Create variables to hold the gross value, total commission fees, and total fees to help calculate the net value
-    gross_value = df["Value"].sum()
-    total_commissions = df["Commissions"].sum()
-    total_fees = df["Fees"].sum()
-    net_value = gross_value + total_commissions + total_fees
 
-    #Print statements to show the metrics
-    print(f"Your long call gross value for {ticker} is ${round(gross_value,2)}.")
-    print(f"Your total long call commission fees for {ticker} is ${round(total_commissions,2)}.")
-    print(f"Your total long call fees for {ticker} is ${round(total_fees,2)}.")
-    print(f"Your long call net value for {ticker} is ${round(net_value,2)}.")
+    if len(df) == 0:
+        print("You did not employ this strategy for this ticker.")
+    
+    else:
+        #Create variables to hold the gross value, total commission fees, and total fees to help calculate the net value
+        gross_value = df["Value"].sum()
+        total_commissions = df["Commissions"].sum()
+        total_fees = df["Fees"].sum()
+        net_value = gross_value + total_commissions + total_fees
+
+        #Print statements to show the metrics
+        print(f"Your long call gross value for {ticker} is ${round(gross_value,2)}.")
+        print(f"Your total long call commission fees for {ticker} is ${round(total_commissions,2)}.")
+        print(f"Your total long call fees for {ticker} is ${round(total_fees,2)}.")
+        print(f"Your long call net value for {ticker} is ${round(net_value,2)}.")
 
 #Create a function to calculate averege and net average values of short puts on specified ticker
 def short_put_avg_net_value(df, ticker):
@@ -127,18 +147,23 @@ def short_put_avg_net_value(df, ticker):
     df = df.loc[(df["Action"] == "SELL_TO_OPEN") | (df["Action"] == "SELL_TO_CLOSE")]
     df = df.loc[df["Call or Put"] == "PUT"]
 
-    #Create variables to hold the average value, gross value, total commission fees, and total fees to help calculate the average net value
-    avg_value = df["Value"].mean()
-    gross_value = df["Value"].sum()
-    total_commissions = df["Commissions"].sum()
-    total_fees = df["Fees"].sum()
-    net_value = gross_value + total_commissions + total_fees
-    rows = len(df.index)
-    avg_net_value = net_value / rows
+    if len(df) == 0:
+        print("You did not employ this strategy for this ticker.")
 
-    #Print statements to show the metrics
-    print(f"Your short put average value for {ticker} is ${round(avg_value,2)}.")
-    print(f"Your short put average net value for {ticker} is ${round(avg_net_value,2)}.")
+    else:
+
+        #Create variables to hold the average value, gross value, total commission fees, and total fees to help calculate the average net value
+        avg_value = df["Value"].mean()
+        gross_value = df["Value"].sum()
+        total_commissions = df["Commissions"].sum()
+        total_fees = df["Fees"].sum()
+        net_value = gross_value + total_commissions + total_fees
+        rows = len(df.index)
+        avg_net_value = net_value / rows
+
+        #Print statements to show the metrics
+        print(f"Your short put average value for {ticker} is ${round(avg_value,2)}.")
+        print(f"Your short put average net value for {ticker} is ${round(avg_net_value,2)}.")
 
 #Create a function to calculate averege and net average values of long puts on specified ticker
 def long_put_avg_net_value(df, ticker):
@@ -147,18 +172,23 @@ def long_put_avg_net_value(df, ticker):
     df = df[(df["Action"] == "BUY_TO_OPEN") | (df["Action"] == "BUY_TO_CLOSE")]
     df = df.loc[df["Call or Put"] == "PUT"]
 
-    #Create variables to hold the average value, gross value, total commission fees, and total fees to help calculate the average net value
-    avg_value = df["Value"].mean()
-    gross_value = df["Value"].sum()
-    total_commissions = df["Commissions"].sum()
-    total_fees = df["Fees"].sum()
-    net_value = gross_value + total_commissions + total_fees
-    rows = len(df.index)
-    avg_net_value = net_value / rows
+    if len(df) == 0:
+        print("You did not employ this strategy for this ticker.")
+    
+    else:
 
-    #Print statements to show the metrics
-    print(f"Your long put average value for {ticker} is ${round(avg_value,2)}.")
-    print(f"Your long put average net value for {ticker} is ${round(avg_net_value,2)}.")
+        #Create variables to hold the average value, gross value, total commission fees, and total fees to help calculate the average net value
+        avg_value = df["Value"].mean()
+        gross_value = df["Value"].sum()
+        total_commissions = df["Commissions"].sum()
+        total_fees = df["Fees"].sum()
+        net_value = gross_value + total_commissions + total_fees
+        rows = len(df.index)
+        avg_net_value = net_value / rows
+
+        #Print statements to show the metrics
+        print(f"Your long put average value for {ticker} is ${round(avg_value,2)}.")
+        print(f"Your long put average net value for {ticker} is ${round(avg_net_value,2)}.")
 
 #Create a function to calculate averege and net average values of long puts on specified ticker
 def short_call_avg_net_value(df, ticker):
@@ -167,18 +197,23 @@ def short_call_avg_net_value(df, ticker):
     df = df.loc[(df["Action"] == "SELL_TO_OPEN") | (df["Action"] == "SELL_TO_CLOSE")]
     df = df.loc[df["Call or Put"] == "CALL"]
 
-    #Create variables to hold the average value, gross value, total commission fees, and total fees to help calculate the average net value
-    avg_value = df["Value"].mean()
-    gross_value = df["Value"].sum()
-    total_commissions = df["Commissions"].sum()
-    total_fees = df["Fees"].sum()
-    net_value = gross_value + total_commissions + total_fees
-    rows = len(df.index)
-    avg_net_value = net_value / rows
-	
-    #Print statements to show the metrics
-    print(f"Your short call average value for {ticker} is ${round(avg_value,2)}.")
-    print(f"Your short call average net value for {ticker} is ${round(avg_net_value,2)}.")
+    if len(df) == 0:
+        print("You did not employ this strategy for this ticker.")
+
+    else:
+
+        #Create variables to hold the average value, gross value, total commission fees, and total fees to help calculate the average net value
+        avg_value = df["Value"].mean()
+        gross_value = df["Value"].sum()
+        total_commissions = df["Commissions"].sum()
+        total_fees = df["Fees"].sum()
+        net_value = gross_value + total_commissions + total_fees
+        rows = len(df.index)
+        avg_net_value = net_value / rows
+        
+        #Print statements to show the metrics
+        print(f"Your short call average value for {ticker} is ${round(avg_value,2)}.")
+        print(f"Your short call average net value for {ticker} is ${round(avg_net_value,2)}.")
 
 #Create a function to calculate averege and net average values of long puts on specified ticker
 def long_call_avg_net_value(df, ticker):
@@ -187,18 +222,23 @@ def long_call_avg_net_value(df, ticker):
     df = df[(df["Action"] == "BUY_TO_OPEN") | (df["Action"] == "BUY_TO_CLOSE")]
     df = df.loc[df["Call or Put"] == "CALL"]
 
-    #Create variables to hold the average value, gross value, total commission fees, and total fees to help calculate the average net value
-    avg_value = df["Value"].mean()
-    gross_value = df["Value"].sum()
-    total_commissions = df["Commissions"].sum()
-    total_fees = df["Fees"].sum()
-    net_value = gross_value - total_commissions - total_fees
-    rows = len(df.index)
-    avg_net_value = net_value / rows
+    if len(df) == 0:
+        print("You did not employ this strategy for this ticker.")
 
-    #Print statements to show the metrics
-    print(f"Your long call average value for {ticker} is ${round(avg_value,2)}.")
-    print(f"Your long call average net value for {ticker} is ${round(avg_net_value,2)}.")
+    else:
+
+        #Create variables to hold the average value, gross value, total commission fees, and total fees to help calculate the average net value
+        avg_value = df["Value"].mean()
+        gross_value = df["Value"].sum()
+        total_commissions = df["Commissions"].sum()
+        total_fees = df["Fees"].sum()
+        net_value = gross_value - total_commissions - total_fees
+        rows = len(df.index)
+        avg_net_value = net_value / rows
+
+        #Print statements to show the metrics
+        print(f"Your long call average value for {ticker} is ${round(avg_value,2)}.")
+        print(f"Your long call average net value for {ticker} is ${round(avg_net_value,2)}.")
 
 
 def credit_spread(df):
@@ -207,6 +247,10 @@ def credit_spread(df):
 def debit_spread(df):
     return
 
+def short_strangle(df):
+    return
+
+"""
 def short_strangle(portfolio_data_df, ticker, start_exp_date, start_strike_price, start_call_put, match_exp_date, match_strike_price, match_call_put):
 
     ss_filter(portfolio_data_df, ticker)
@@ -214,7 +258,7 @@ def short_strangle(portfolio_data_df, ticker, start_exp_date, start_strike_price
 
     return result_df
 
-    """ #Create a dataframe for the chosen ticker
+    #Create a dataframe for the chosen ticker
     df = portfolio_data_df[portfolio_data_df['Underlying Symbol'] == ticker]
 
     #Clean-up and format the datatypes for the DataFrame

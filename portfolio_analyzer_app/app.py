@@ -86,7 +86,8 @@ def choose_strategy():
             "Short Strangle - *Feature Coming Soon!*",
             "Iron Condor - *Feature Coming Soon!*",
             "Rolling Options - *Feature Coming Soon!*",
-            "Covered Calls - *Feature Coming Soon!*"
+            "Covered Calls - *Feature Coming Soon!*",
+            "EXIT THE APPLICATION!"
             ]).ask()
 
     return strategy
@@ -113,37 +114,41 @@ def run():
     #Choose how to analyze the stock ticker trades
     strategy = choose_strategy()
 
+    while strategy != "EXIT THE APPLICATION!":
     #Runs the chosen strategy by the user.
-    if strategy == "Total Position":
-        position = get_total_position(portfolio_data_df, ticker)
-    elif strategy == "Short Put - Gross & Net Value":
-        short_put_gross_net_value(portfolio_data_df, ticker)
-    elif strategy == "Long Put - Gross & Net Value":
-        long_put_gross_net_value(portfolio_data, ticker)
-    elif strategy == "Short Call - Gross & Net Value":
-        short_call_gross_net_value(portfolio_data_df, ticker)
-    elif strategy == "Long Call - Gross & Net Value":
-        long_call_gross_net_value(portfolio_data_df, ticker)
-    elif strategy == "Short Put - Average Values":
-        short_put_avg_net_value(portfolio_data_df, ticker)
-    elif strategy == "Long Put - Average Values":
-        long_put_avg_net_value(portfolio_data_df, ticker)
-    elif strategy == "Short Call - Average Values":
-        short_call_avg_net_value(portfolio_data_df, ticker)
-    elif strategy == "Long Call - Average Values":
-        long_call_avg_net_value(portfolio_data_df, ticker)
-    elif strategy == "Credit Spread":
-        credit_spread(portfolio_data_df, ticker)
-    elif strategy == "Debit Spread":
-        debit_spread(portfolio_data_df, ticker)
-    elif strategy == "Short Strangle":
-        short_strangle(portfolio_data_df, ticker)
-    elif strategy == "Iron Condor":
-        iron_condor(portfolio_data_df, ticker)
-    elif strategy == "Rolling Options":
-        rolling_options(portfolio_data_df, ticker)
-    elif strategy == "Covered Calls":
-        covered_calls(portfolio_data_df, ticker)
+        if strategy == "Total Position":
+            position = get_total_position(portfolio_data_df, ticker)
+        elif strategy == "Short Put - Gross & Net Value":
+            short_put_gross_net_value(portfolio_data_df, ticker)
+        elif strategy == "Long Put - Gross & Net Value":
+            long_put_gross_net_value(portfolio_data, ticker)
+        elif strategy == "Short Call - Gross & Net Value":
+            short_call_gross_net_value(portfolio_data_df, ticker)
+        elif strategy == "Long Call - Gross & Net Value":
+            long_call_gross_net_value(portfolio_data_df, ticker)
+        elif strategy == "Short Put - Average Values":
+            short_put_avg_net_value(portfolio_data_df, ticker)
+        elif strategy == "Long Put - Average Values":
+            long_put_avg_net_value(portfolio_data_df, ticker)
+        elif strategy == "Short Call - Average Values":
+            short_call_avg_net_value(portfolio_data_df, ticker)
+        elif strategy == "Long Call - Average Values":
+            long_call_avg_net_value(portfolio_data_df, ticker)
+        elif strategy == "Credit Spread":
+            credit_spread(portfolio_data_df, ticker)
+        elif strategy == "Debit Spread":
+            debit_spread(portfolio_data_df, ticker)
+        elif strategy == "Short Strangle":
+            short_strangle(portfolio_data_df, ticker)
+        elif strategy == "Iron Condor":
+            iron_condor(portfolio_data_df, ticker)
+        elif strategy == "Rolling Options":
+            rolling_options(portfolio_data_df, ticker)
+        elif strategy == "Covered Calls":
+            covered_calls(portfolio_data_df, ticker)
+        elif strategy == "EXIT THE APPLICATION!":
+            sys.exit()
+        strategy = choose_strategy()
 
 if __name__ == "__main__":
     fire.Fire(run)
