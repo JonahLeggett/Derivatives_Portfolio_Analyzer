@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Credit Score Filter.
+"""Short Strangle Filter.
 
-This script filters a bank list by the user's minimum credit score.
+This script filters the Dataframe for values to "tag" each row
+for the short strangle strategy if it meets the short strangle criteria.
 
 """
 import pandas as pd

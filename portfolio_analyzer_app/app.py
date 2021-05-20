@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-"""Loan Qualifier Application.
+"""Derivatives Portfolio Metrics Analyzer App.
 
-This is a command line application to match applicants with qualifying loans.
+This is a command line application to get the user strategy metrics for his derivaties portfolio.
 
 Example:
     $ python app.py
 """
+
+#Import all libraries required to run the application
 from os import startfile
 import sys
 import fire
@@ -16,8 +18,19 @@ import pandas as pd
 
 from qualifier.utils.fileio import load_csv
 
+from qualifier.filters.clean_up_df_filter import df_clean_up
+
+#Import the strategy calculators
 from qualifier.utils.strategy import (
-    get_total_position, 
+    get_total_position,
+    short_put_gross_net_value,
+    long_put_gross_net_value,
+    short_call_gross_net_value,
+    long_call_gross_net_value,
+    short_call_avg_net_value,
+    long_call_avg_net_value,
+    short_put_avg_net_value,
+    long_put_avg_net_value,
     credit_spread,
     debit_spread,
     short_strangle,
@@ -26,17 +39,12 @@ from qualifier.utils.strategy import (
     covered_calls)
 
 
-#Impot save_csv() function from fileio.py module
-from qualifier.utils.fileio import save_csv 
-
-
 def load_portfolio_csv():
     """Ask for the file path to the latest banking data and load the CSV file.
 
     Returns:
         The bank data from the data rate sheet CSV file.
     """
-
     csvpath = questionary.text("Enter the file path for your portfolio CSV file to analyze:").ask()
     csvpath = Path(csvpath)
     if not csvpath.exists():
@@ -56,53 +64,32 @@ def get_ticker():
     return ticker
 
 def choose_strategy():
+    """Prompt dialog to get the user to choose the strategy that they want metrics on.
 
-    #Figure out how to display stock tickers from CSV file
+    Returns:
+        Returns the strategy
+    """
     strategy = questionary.select(
         "Choose the strategy that you want to get analysis on:",
         choices = [
             "Total Position",
-            "Credit Spread",
-            "Debit Spread",
-            "Short Strangle",
-            "Iron Condor",
-            "Rolling Options",
-            "Covered Calls"
+            "Short Put - Gross & Net Value",
+            "Long Put - Gross & Net Value",
+            "Short Call - Gross & Net Value",
+            "Long Call - Gross & Net Value",
+            "Short Put - Average Values",
+            "Long Put - Average Values",
+            "Short Call - Average Values",
+            "Long Call - Average Values",
+            "Credit Spread - *Feature Coming Soon!*",
+            "Debit Spread - *Feature Coming Soon!*",
+            "Short Strangle - *Feature Coming Soon!*",
+            "Iron Condor - *Feature Coming Soon!*",
+            "Rolling Options - *Feature Coming Soon!*",
+            "Covered Calls - *Feature Coming Soon!*"
             ]).ask()
+
     return strategy
-
-
-def save_qualifying_loans(qualifying_loans):
-    """Saves the qualifying loans to a CSV file.
-
-    Args:
-        qualifying_loans (list of lists): The qualifying bank loans.
-    """
-
-    # @TODO: Complete the usability dialog for saving the CSV Files.
-    # YOUR CODE HERE!
-
-    #Setting a condition where if the user does not qualify for any loans, the app will print a message and exit the app
-    if qualifying_loans == []:
-        sys.exit("You have no qualifying loans at this time.  Please try again at another time.  Thank you.")
-
-    #Using Quesionary confirm() to get user input of whether they want to save their CSV file or not
-    else:
-        confirm_save = questionary.confirm("Would you like to save your file?  Type 'y' for Yes or 'n' for No.").ask()
-        
-        if confirm_save == True:
-            csvoutpath = questionary.text("Enter a file path of where you would like to save your file.").ask()
-            csvoutpath = Path(csvoutpath)
-            print (f"Your file has been saved in {csvoutpath}.  Thank you for using our app!")
-
-            #Deleted save_csv from run(), and calling it here to save the file from user's input
-            return save_csv(qualifying_loans)
-
-        else:
-            sys.exit("Your file has not been saved.  Thank you for using our app!")
-
-
-
 
 def run():
     """The main function for running the script."""
@@ -112,16 +99,39 @@ def run():
     # Load the latest portfolio data
     portfolio_data = load_portfolio_csv()
     portfolio_data_df = pd.DataFrame(portfolio_data)
-    print(portfolio_data_df)
 
-    # Get the stock ticker
+    # Get the stock ticker from user input
     ticker = get_ticker()
-    
+
+    #Filter the dataframe by the ticker
+    portfolio_data_df = portfolio_data_df[portfolio_data_df['Underlying Symbol'] == ticker]
+
+    #Clean up the dataframe by converting its values to appropriate types for calculations
+    portfolio_data_df = df_clean_up(portfolio_data_df)
+    print(portfolio_data_df.info())
+
     #Choose how to analyze the stock ticker trades
     strategy = choose_strategy()
 
+    #Runs the chosen strategy by the user.
     if strategy == "Total Position":
         position = get_total_position(portfolio_data_df, ticker)
+    elif strategy == "Short Put - Gross & Net Value":
+        short_put_gross_net_value(portfolio_data_df, ticker)
+    elif strategy == "Long Put - Gross & Net Value":
+        long_put_gross_net_value(portfolio_data, ticker)
+    elif strategy == "Short Call - Gross & Net Value":
+        short_call_gross_net_value(portfolio_data_df, ticker)
+    elif strategy == "Long Call - Gross & Net Value":
+        long_call_gross_net_value(portfolio_data_df, ticker)
+    elif strategy == "Short Put - Average Values":
+        short_put_avg_net_value(portfolio_data_df, ticker)
+    elif strategy == "Long Put - Average Values":
+        long_put_avg_net_value(portfolio_data_df, ticker)
+    elif strategy == "Short Call - Average Values":
+        short_call_avg_net_value(portfolio_data_df, ticker)
+    elif strategy == "Long Call - Average Values":
+        long_call_avg_net_value(portfolio_data_df, ticker)
     elif strategy == "Credit Spread":
         credit_spread(portfolio_data_df, ticker)
     elif strategy == "Debit Spread":
@@ -134,10 +144,6 @@ def run():
         rolling_options(portfolio_data_df, ticker)
     elif strategy == "Covered Calls":
         covered_calls(portfolio_data_df, ticker)
-
-    # Save qualifying loans
-    #save_qualifying_loans(qualifying_loans)
-
 
 if __name__ == "__main__":
     fire.Fire(run)
