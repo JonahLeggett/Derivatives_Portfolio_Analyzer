@@ -59,15 +59,23 @@ run the following code in your terminal:
 voila derivatives_portfolio_analyzer.ipynb
 ``` 
 
-To use the San Derivatives Portfolio Analysis Application simply clone the repository and run the following code in your terminal:
+To use the San Derivatives Portfolio Analysis Application simply clone the repository, cd to the 'portfolio_analzyer_app' folder and run the following code in your terminal:
 
 ```python
-app.py
+python app.py
 ```
 
 Then, follow the prompts from the CLI. You will need to enter the relative path of your CSV file from your trading platform, then follow prompts to analyzee your options trades!
 
 ## CLI Import Steps and Images
+
+First, import any CSV included in our 'Resources' folder in the github repo.
+
+Second, select a 'Ticker' to analyze
+
+Third, use directional arrows to select the options strategy you would like to analyze on that specific ticker. 
+
+Then, you can choose to continue your analysis, or you can use the 'System Exit' to exit the application.
 
 
 ---
