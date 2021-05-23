@@ -69,14 +69,20 @@ Then, follow the prompts from the CLI. You will need to enter the relative path 
 
 ## CLI Import Steps and Images
 
-First, import any CSV included in our 'Resources' folder in the github repo.
+*First, import any CSV included in our 'Resources' folder in the github repo.*
+![Step 1](/images/step1.PNG)
 
-Second, select a 'Ticker' to analyze
+*Second, select a 'Ticker' to analyze*
+![Step 2](/images/step2.PNG)
 
-Third, use directional arrows to select the options strategy you would like to analyze on that specific ticker. 
+*Third, review your position for that stock that you chose.* 
+![Step 3](/images/step3.PNG)
 
-Then, you can choose to continue your analysis, or you can use the 'System Exit' to exit the application.
+*Fourth, use directional arrows to select the options strategy you would like to analyze on that specific ticker.*
+![Step 4](/images/step4.PNG)
 
+*Finally, Exit the Application*
+![Step 5](/images/step5.PNG)
 
 ---
 
