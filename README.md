@@ -96,6 +96,7 @@ bhudzen@gmail.com
 
 You can add us at LinkedIn: 
 (https://www.linkedin.com/in/jonah-l-29278a8a/)
+(https://www.linkedin.com/in/samueljinyang/)
 
 
 ---
